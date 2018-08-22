@@ -1,0 +1,44 @@
+body{
+	line-height:		1.6;
+	font-size:		18px;
+	color:			#444;
+	padding:		10px;
+}
+h1{
+	background:		#ff0000;
+	color:			#ffffff;
+}
+div#UI{
+	width:			1190px;
+	float:			right;
+}
+div#sketch{
+	padding:		0px 20px 0px 0px;
+	float:			left;
+	width:			595px;
+}
+input#slider{
+	width:			55%;
+}
+div#checkboxDiv{
+	float:			left;
+	padding:		0px 30px 0px 0px;
+}
+div#tikzDiv{
+	left:			605px;
+	padding:		10px;
+	border-style:		solid;
+}
+div#nodeSettings{
+	border-radius:		10px 10px 5px 5px;
+	background:		#ff0000;
+	padding:		20px 10px;
+	position:		absolute;
+	right:			18px;
+	top:			90px;
+}
+.nodeSetting{
+	height:			30px;
+	width:			250px;
+	display:		block;
+}
