@@ -1,8 +1,3 @@
-/*
- * Big ol' List 'a bugs and TODO's 
- * 	-Hitboxes always assume circle, needs a switch case
- */
-
 const width = 595; //A4 format
 const height = 842;
 const nodeSize = 45;
@@ -28,7 +23,6 @@ function draw() {
 	mouseStuff();
 	render();
 	tikzExport();
-
 }
 
 function keyPressed() {

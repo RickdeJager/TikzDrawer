@@ -1,4 +1,5 @@
 let pmouseIsPressed = false;
+let holdingRightClick = false;
 let lastMouseClickOnCanvas = false;
 
 function mouseStuff() {
@@ -9,6 +10,10 @@ function mouseStuff() {
 
 function mouseClicked() {
 	lastMouseClickOnCanvas = mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
+}
+
+function mouseReleased() {
+	holdingRightClick = false;
 }
 
 function handleLinking() {
@@ -24,11 +29,18 @@ function handleLinking() {
 				selectedNode = nodeFound[0];
 				setNodeInfo();
 			}else {
+				if(!holdingRightClick) { //If the node was clicked, highlight without linking
+					selectedNode = nodeFound[0];
+					setNodeInfo();
+					return;
+				}
 				toggleLink(selectedNode, nodeFound[0]);
 				selectedNode = null;
 			}
 		}
 	
+		//RightClick has been held for at least this frame, set it to true
+		holdingRightClick = true;
 	}
 
 }
