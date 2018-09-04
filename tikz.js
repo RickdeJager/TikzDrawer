@@ -30,15 +30,10 @@ function tikzExport() {
 	}
 	//Cook up a list of edges
 	let tikzEdges = '';
-	for (linkListIndex in linkArray) {
-		let linkList = linkArray[linkListIndex];
-		for (to of linkList) {
-			//Remove this check for directed edges
-			if (to > linkListIndex) {
-				let newEntry = '('+String(linkListIndex)+')'+'--('+String(to)+')<br>';
-				tikzEdges +=newEntry;
-			}
-		}
+	for (edge of linkArray) {
+		var control = calculateControl(edge);
+		let newEntry = '('+String(nodeArray.indexOf(edge.from))+')'+control+' ('+String(nodeArray.indexOf(edge.to))+')<br>';
+		tikzEdges +=newEntry;
 	}
 	let tikzCode = '';
 	if (tikzEdges != '') {
@@ -51,4 +46,11 @@ function tikzExport() {
 		tikzCodeOutput.html(tikzCode);
 	}
 	ptikzCode = tikzCode;
+}
+
+function calculateControl(edge) {
+	var x = (((edge.from.x + edge.to.x)/2 + edge.centerOffsetX) *scl).toFixed(4);
+	var y = ((height - ((edge.from.y + edge.to.y)/2 + edge.centerOffsetY)) * scl).toFixed(4);
+	return '.. controls ('+x+', '+y+') ..';
+
 }
