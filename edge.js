@@ -1,5 +1,4 @@
 function Edge(from, to, label) {
-
 	this.from = from;
 	this.to = to;
 	this.label = label;
@@ -21,12 +20,11 @@ function drawLabel(from, to, label) {
 	fill(255);
 	textAlign('center', 'bottom');
 	text(label, x, y);
-
 }
 
 function drawEdge(from, to, centerOffsetX, centerOffsetY, localPointer) {
 	let defaultColor = color(0, 0, 0, 255);
-	//The detection color is used to find a collision with the mouse, duck hunt style
+	// The detection color is used to find a collision with the mouse, duck hunt style
 	let detectionColor = color(1, 1, 1, 255);
 	let x = (from.x+to.x)/2 + centerOffsetX;
 	let y = (from.y+to.y)/2 + centerOffsetY;
@@ -35,7 +33,7 @@ function drawEdge(from, to, centerOffsetX, centerOffsetY, localPointer) {
 	strokeWeight(5);
 	bezier(from.x, from.y, x, y, x, y, to.x, to.y);
 	let hoverCol = get(mouseX, mouseY);
-	//Marked saves whether or not a curve was already found, gets set in render.js
+	// Marked saves whether or not a curve was already found, gets set in render.js
 	if (!marked && compareColorArrays(hoverCol, detectionColor.levels)) {
 		marked = true;
 		localPointer.hover = true;

@@ -1,40 +1,63 @@
 let gridSize = 80;
-let stickToGrid = true;
+let snapToGrid = true;
 
-function moveStuffToGridLines() {
-	if(mouseIsPressed) {
-		return; //Let's not move stuff while the user is interacting.
+function snapToGrid() {
+	// Let's not move stuff while the user is interacting
+	if (mouseIsPressed) {
+		return;
 	}
 
 	for (node of nodeArray) {
-		if (node == null) {continue;}
-		destinationX = (width%gridSize)/2 + Math.round((node.x-(width%gridSize)/2)/gridSize)*gridSize; //Offset+rounded(only full grid) to the next gridPoint.
-		destinationY = (height%gridSize)/2 + Math.round((node.y-(height%gridSize)/2)/gridSize)*gridSize;
-		if (dist(node.x, node.y, destinationX, destinationY) <= moveAmount) { //If we're close to the destination, just place it there
+		if (node == null) {
+			continue;
+		}
+
+		// Move to the closest grid intersection
+		destinationX = roundToGridSize((width % gridSize)/2, node.x);
+		destinationY = roundToGridSize((height % gridSize)/2, node.y);
+
+		// Are we close enough to the destination?
+		if (dist(node.x, node.y, destinationX, destinationY) <= moveAmount) {
+			// Just place it there
 			node.x = destinationX;
 			node.y = destinationY;
-		}else {
-			ratioX = map(Math.abs(node.x-destinationX), 0, Math.abs(node.x-destinationX)+Math.abs(node.y-destinationY), 0, 1);
-			ratioY = map(Math.abs(node.y-destinationY), 0, Math.abs(node.x-destinationX)+Math.abs(node.y-destinationY), 0, 1);
-			node.x -= Math.sign(node.x-destinationX)*moveAmount*ratioX;
-			node.y -= Math.sign(node.y-destinationY)*moveAmount*ratioY;
+		} else {
+			// Move it a little bit in the right direction
+			dx = Math.abs(node.x - destinationX)
+			dy = Math.abs(node.y - destinationY)
+			ratioX = map(dx, 0, dx + dy, 0, 1);
+			ratioY = map(dy, 0, dx + dy, 0, 1);
+			node.x -= Math.sign(node.x - destinationX) * moveAmount * ratioX;
+			node.y -= Math.sign(node.y - destinationY) * moveAmount * ratioY;
 		}
 	}
 
+}
+
+function roundToGridSize(offset, value) {
+	let rounded = Math.round((value - offset) / gridSize) * gridSize;
+	return rounded + offset;
 }
 
 function drawGrid() {
 	gridSize = gridSizeSlider.value();
 	stroke(125);
 	strokeWeight(1);
-	for (var i=(width%gridSize)/2; i < width + (width%gridSize)/2; i+=gridSize) {
-		line(i, 0, i, height);	
+
+	// vertical lines
+	offset = (width % gridSize) / 2
+	for (let i = 0; i < width; i += gridSize) {
+		line(i + offset, 0, i + offset, height);
 	}
-	for (var i=(height%gridSize)/2; i < height + (height%gridSize)/2; i+=gridSize) {
-		line(0, i, width, i);	
+
+	// horizontal lines - offset is the distance between the top border and the
+	// first line
+	offset = (height % gridSize) / 2
+	for (let i = 0; i < height; i += gridSize) {
+		line(0, i + offset, width, i + offset);
 	}
 }
 
 function setGridSetting() {
-	stickToGrid = this.checked();
+	snapToGrid = this.checked();
 }

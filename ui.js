@@ -11,7 +11,7 @@ let nodeShape = shapeList[0];
 
 function setupUI() {
 	//Plot settings
-	gridSetting = createCheckbox('Stick to grid', stickToGrid);
+	gridSetting = createCheckbox('Snap to grid', snapToGrid);
 	gridSetting.id('checkboxDiv');
 	gridSetting.changed(setGridSetting);
 
