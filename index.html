@@ -1,45 +1,43 @@
 <html>
-      <head>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.js"></script>
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/addons/p5.dom.js"></script>
-          <script src="tikz.js"></script>
-          <script src="render.js"></script>
-          <script src="mouseInteractions.js"></script>
-          <script src="ui.js"></script>
-          <script src="grid.js"></script>
-          <script src="node.js"></script>
-          <script src="edge.js"></script>
-          <script src="main.js"></script>
-          <link rel="stylesheet" href="tikzDrawer.css">
-      </head>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/addons/p5.dom.js"></script>
+        <script src="tikz.js"></script>
+        <script src="render.js"></script>
+        <script src="mouseInteractions.js"></script>
+        <script src="ui.js"></script>
+        <script src="grid.js"></script>
+        <script src="node.js"></script>
+        <script src="edge.js"></script>
+        <script src="main.js"></script>
+        <link rel="stylesheet" href="tikzDrawer.css">
+    </head>
 
-      <body oncontextmenu="return false;">
-          <h1>Rick's Slick Fix for Sick Tikz Pics </h1>
-            <div id="main">
-                <div id="sketch">
-
-                </div>
-		<div id="UI">
-		    <div id="plotSettings">
-
-		    </div>
-		    <div id="tikzDiv">
-
-	    	    </div>
-		    <div id="nodeSettings">
-
-		    </div>
-		</div>
-		<div class="centered_float" id="tutorial">
-			<div class="child">
-				<p class="child">Hey welcome!<br>
-				To draw a new node, simply click anywhere on the canvas.<br>
-				To select a node, right click on it. A box will appear allowing you to change the properties of the node.<br>
-				To draw an edge, drag a line from one node to another using the right mouse button. You can bend the edge by dragging it with the left mouse button.<br>
-				To delete a node, select it and press delete or drag it to the red part of the canvas.</p>
-				<input type=submit value="Got it!" id="tutorialButton" onclick="document.getElementById('tutorial').style.display='none'"/>
-			</div>
-		</div>
+    <body oncontextmenu="return false;">
+        <h1>Rick's Slick Fix for Sick Tikz Pics</h1>
+        <div id="main">
+            <div id="sketch">
             </div>
-      </body>
+            <div id="UI">
+                <div id="plotSettings">
+                </div>
+                <div id="tikzDiv">
+                </div>
+                <div id="nodeSettings">
+                </div>
+            </div>
+            <div class="centered_float" id="tutorial">
+                <div class="child">
+                    <p class="child">
+                        Hey welcome!<br>
+                        To draw a new node, simply click anywhere on the canvas.<br>
+                        To select a node, right click on it. A box will appear allowing you to change the properties of the node.<br>
+                        To draw an edge, drag a line from one node to another using the right mouse button. You can bend the edge by dragging it with the left mouse button.<br>
+                        To delete a node, select it and press delete or drag it to the red part of the canvas.
+                    </p>
+                    <input type=submit value="Got it!" id="tutorialButton" onclick="document.getElementById('tutorial').style.display='none'"/>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
