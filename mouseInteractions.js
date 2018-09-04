@@ -1,6 +1,5 @@
 let pmouseIsPressed = false;
-let pMarked = false;
-let movingEdge = null;
+let holdingRightClick = false;
 let lastMouseClickOnCanvas = false;
 
 function mouseStuff() {
@@ -9,12 +8,12 @@ function mouseStuff() {
 	pmouseIsPressed = mouseIsPressed;
 }
 
-function mouseReleased() {
-	pMarked = false;
-}
-
 function mouseClicked() {
 	lastMouseClickOnCanvas = mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
+}
+
+function mouseReleased() {
+	holdingRightClick = false;
 }
 
 function handleLinking() {
@@ -30,15 +29,23 @@ function handleLinking() {
 				selectedNode = nodeFound[0];
 				setNodeInfo();
 			}else {
-				toggleLink(nodeArray[selectedNode], nodeArray[nodeFound[0]]);
+				if(!holdingRightClick) { //If the node was clicked, highlight without linking
+					selectedNode = nodeFound[0];
+					setNodeInfo();
+					return;
+				}
+				toggleLink(selectedNode, nodeFound[0]);
 				selectedNode = null;
 			}
 		}
+	
+		//RightClick has been held for at least this frame, set it to true
+		holdingRightClick = true;
 	}
+
 }
 
 function handleMoving() {
-	nodeFound = searchNodes(mouseX, mouseY);
 	if(mouseIsPressed && mouseButton == 'left') {
 		if(mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) {
 			return;	
@@ -50,17 +57,8 @@ function handleMoving() {
 				deleteNode(movingNode);
 				movingNode = null;
 			}
-		}else if((marked || pMarked) && nodeFound < 0) {
-			var edge = findMarkedEdge();
-			if (edge == null || (pMarked && movingEdge)) {
-				edge = movingEdge;
-			}else {
-				movingEdge = edge;
-			}
-			pMarked = true;
-			edge.centerOffsetX += mouseX-pmouseX;
-			edge.centerOffsetY += mouseY-pmouseY;
 		}else {
+			nodeFound = searchNodes(mouseX, mouseY);
 			if(nodeFound[0] === -2) {
 				if(mouseX >= width-deletionAreaWidth) {return;} //Nodes in this area get deleted, no use in making new ones here.
 				addNode(mouseX, mouseY, '', '', nodeSize, nodeShape);
@@ -72,4 +70,4 @@ function handleMoving() {
 	}else {
 		movingNode = null;
 	}
-} 
+}

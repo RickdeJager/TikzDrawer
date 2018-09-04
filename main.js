@@ -23,7 +23,6 @@ function draw() {
 	mouseStuff();
 	render();
 	tikzExport();
-
 }
 
 function keyPressed() {
@@ -78,55 +77,56 @@ function isANodeSelected(){
 
 function addNode(xPos, yPos, text, label, size, shape) {
 	nodeArray.push(new Node(xPos, yPos, text, label, size, shape));
+
 }
 
 function toggleLink(from, to) {
-	for (edge of linkArray) {
-		if ((edge.from == from && edge.to ==to) || (edge.from == to && edge.to == from)) {
-			deleteLink(edge.from, edge.to);
+	if(linkArray[from] && linkArray[to]) {
+		if(linkArray[from].includes(to) || linkArray[to].includes(from)){
+			deleteLink(from, to);
 			return;
-		}	
+		}
 	}
 	addLink(from, to);
 }
 
 function deleteLink(from, to) {
-	let index = findLinkIndex(from, to);
-	if (index == null) {return;}
-	linkArray.splice(index, 1);
-}
-
-function deleteLinkDirect(edge) {
-	let index = linkArray.indexOf(edge);
-	if (index == -1) {return;}
-	linkArray.splice(index, 1);
-}
-
-function findLinkIndex(from, to) {
-	for (index in linkArray) {
-		let link = linkArray[index]
-		if (link.from == from && link.to == to) {
-			return index;
-		}
-	}
-	return null;
+	linkArray[to].splice(linkArray[to].indexOf(from), 1);
+	linkArray[from].splice(linkArray[from].indexOf(to), 1);
 }
 
 //Doesn't actually delete, but rather erases all links and set's the nodes coords to null
-//TODO BUG, Deleting items and looping over the list causes it to miss items
 function deleteNode(nodeIndex) {
-	var nodeToDelete = nodeArray[nodeIndex];
-	linkArray = linkArray.filter((edge) => edge.from != nodeToDelete && edge.to != nodeToDelete);	
-	//Delete Node
 	if(nodeIndex == selectedNode) {
 		selectedNode = null;
 	}
 	nodeArray[nodeIndex] = null;
-		
+	if(linkArray[nodeIndex]) {
+		for (index of linkArray[nodeIndex]) {
+			for (linkList of linkArray) {
+				if(!linkList || linkList.length <= 0) {continue;}
+				let maybeIndex = linkList.indexOf(nodeIndex);
+				if(maybeIndex != -1) {
+					linkList.splice(maybeIndex, 1);
+				}
+			}
+		}
+		linkArray[nodeIndex] = [];
+	}
 }
 
 function addLink(from, to) {
-	linkArray.push(new Edge(from, to, ""));
+	if(linkArray[from]) {
+		linkArray[from].push(to);
+	}else {
+		linkArray[from] = [to];
+	}
+
+	if(linkArray[to]) {
+		linkArray[to].push(from);
+	}else {
+		linkArray[to] = [from];
+	}
 }
 
 function searchNodes(x, y) {
@@ -141,13 +141,4 @@ function searchNodes(x, y) {
 		}
 	}
 	return [-2]; //No node found!
-}
-
-function findMarkedEdge() {
-	for (edge of linkArray) {
-		if (edge.hover) {
-			return edge;	
-		}
-	}
-	return null;
 }

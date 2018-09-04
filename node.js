@@ -21,7 +21,6 @@ function Node(x, y, nodeText, label, size, shape) {
 }
 
 function drawNode(shape, size, x, y) {
-	strokeWeight(0);
 	switch(shape) {
 		case 'circle':
 			ellipse(x, y, size);

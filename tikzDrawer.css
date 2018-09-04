@@ -1,13 +1,42 @@
+:root {
+	--main-bg-color:	#ea3546;
+	--main-txt-color:	#f1edee;
+	--backdrop:		#eef5db;
+}
+
 body{
 	line-height:		1.6;
 	font-size:		18px;
 	color:			#444;
 	padding:		10px;
+	background:		var(--backdrop);
 }
 h1{
-	background:		#ff0000;
-	color:			#ffffff;
+	background:		var(--main-bg-color);
+	color:			var(--main-txt-color);
 }
+.centered_float{
+	float:			right;
+	position:		absolute;
+	top:			20%;
+	right:			50%;
+}
+.centered_float > .child {
+	border-radius:		10px 10px 5px 5px;
+	background:		var(--main-bg-color);
+	padding:		20px 10px;
+	position: relative;
+	left: 50%;
+	font-size:		20px;
+	color:			var(--main-txt-color);
+}
+
+#tutorialButton{
+	position:		relative;
+	float:			right;
+	bottom:			15px;
+}
+
 div#UI{
 	width:			1190px;
 	float:			right;
@@ -28,6 +57,8 @@ div#tikzDiv{
 	left:			605px;
 	padding:		10px;
 	border-style:		solid;
+	overflow-y:		auto;
+	height:			788px;
 }
 div#nodeSettings{
 	border-radius:		10px 10px 5px 5px;
