@@ -78,6 +78,7 @@ function calculateControl(edge) {
 function buildColorList() {
 	var htmlColorList = [];
 	for (node of nodeArray) {
+		if (!node) {continue;}
 		let nodeColor = node.fillColor;	
 		if (htmlColorList.indexOf(nodeColor) != -1) {continue;}
 		htmlColorList.push(nodeColor);
