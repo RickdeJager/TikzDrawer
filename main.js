@@ -76,8 +76,8 @@ function isANodeSelected(){
 	return true;
 }
 
-function addNode(xPos, yPos, text, label, size, shape) {
-	nodeArray.push(new Node(xPos, yPos, text, label, size, shape));
+function addNode(xPos, yPos, text, label, size, shape, fillColor) {
+	nodeArray.push(new Node(xPos, yPos, text, label, size, shape, fillColor));
 }
 
 function toggleLink(from, to) {

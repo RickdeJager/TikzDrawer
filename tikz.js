@@ -20,12 +20,23 @@ function tikzExport() {
 		;
 	\end{tikzfigure}
 	 */
+	let tikzCode = '';
+	//Define all colors we'll need.
+	let colorList = buildColorList();
+	tikzCode += colorList;
 	//Cook up a list of nodes
 	let tikzNodes = '';
 	for (nodeIndex in nodeArray) {
 		let node = nodeArray[nodeIndex];
 		if (node == null) {continue;}
-		let newEntry = '\\node[draw, '+tikzShapeTranslateTable[node.shape]+'minimum size='+String((node.size*scl).toFixed(2))+'cm, label='+node.label+'] at ('+String((node.x*scl).toFixed(2))+', '+String(((height-node.y)*scl).toFixed(2))+') ('+String(nodeIndex)+')'+' {'+node.text+'};<br>';
+		let label = genLabel(node);
+		let newEntry = '\\node[draw, '+tikzShapeTranslateTable[node.shape]+
+				'minimum size='+String((node.size*scl).toFixed(2))+
+				'cm'+label+
+				', fill='+node.fillColor.replace('#','')+'] at ('+
+				String((node.x*scl).toFixed(2))+', '+
+				String(((height-node.y)*scl).toFixed(2))+') ('+
+				String(nodeIndex)+')'+' {'+node.text+'};<br>';
 		tikzNodes+=newEntry;
 	}
 	//Cook up a list of edges
@@ -35,12 +46,11 @@ function tikzExport() {
 		let newEntry = '('+String(nodeArray.indexOf(edge.from))+')'+control+' ('+String(nodeArray.indexOf(edge.to))+')<br>';
 		tikzEdges +=newEntry;
 	}
-	let tikzCode = '';
 	if (tikzEdges != '') {
 		tikzEdges = '\\draw[-]<br>'+tikzEdges+';';
-		tikzCode = tikzNodes+'<br><br>'+tikzEdges
+		tikzCode += tikzNodes+'<br><br>'+tikzEdges
 	}else {
-		tikzCode = tikzNodes;
+		tikzCode += tikzNodes;
 	}
 	if(tikzCode !==ptikzCode) { //Only update if changed, otherwise selection breaks
 		tikzCodeOutput.html(tikzCode);
@@ -48,9 +58,36 @@ function tikzExport() {
 	ptikzCode = tikzCode;
 }
 
+function genLabel(node) {
+	if (node.label != '') {
+		return ', label='+node.label;
+	}
+	return '';
+}
+
 function calculateControl(edge) {
+	if (edge.centerOffsetX == 0 && edge.centerOffsetY == 0) {
+		return ' to ';
+	}
 	var x = (((edge.from.x + edge.to.x)/2 + edge.centerOffsetX) *scl).toFixed(4);
 	var y = ((height - ((edge.from.y + edge.to.y)/2 + edge.centerOffsetY)) * scl).toFixed(4);
 	return '.. controls ('+x+', '+y+') ..';
 
+}
+
+function buildColorList() {
+	var htmlColorList = [];
+	for (node of nodeArray) {
+		let nodeColor = node.fillColor;	
+		if (htmlColorList.indexOf(nodeColor) != -1) {continue;}
+		htmlColorList.push(nodeColor);
+	}
+
+	let tikzCodeString = '';
+	for (entry of htmlColorList) {
+		let htmlColor = entry.replace('#', '');
+		tikzCodeString += '\\definecolor{'+htmlColor+'}{HTML}{'+htmlColor+'}<br>';
+	}
+
+	return tikzCodeString;
 }

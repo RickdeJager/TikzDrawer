@@ -72,7 +72,7 @@ function handleMoving() {
 		}else {
 			if(nodeFound[0] === -2) {
 				if(mouseX >= width-deletionAreaWidth) {return;} //Nodes in this area get deleted, no use in making new ones here.
-				addNode(mouseX, mouseY, '', '', nodeSize, nodeShape);
+				addNode(mouseX, mouseY, '', '', nodeSize, nodeShape, '#0000ff');
 			}else if (nodeFound[0] != -1) {
 				movingNode = nodeFound[0];
 				movingOffset = nodeFound.slice(1,3);

@@ -7,7 +7,7 @@ function render() {
 	rect(width - deletionAreaWidth, 0, width, height); //background
 	if (snapToGrid) {
 		drawGrid();
-		snapToGrid();
+		snapNodesToGrid();
 	}
 	renderEdges();
 	renderNodes();
@@ -22,9 +22,7 @@ function renderNodes() {
 		}
 
 		if (index == selectedNode) {
-			fill(255, 0, 0);
-		} else {
-			fill(0, 0, 255);
+			node.highlight();
 		}
 		node.draw();
 	}

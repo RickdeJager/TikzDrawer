@@ -1,7 +1,7 @@
 let gridSize = 80;
 let snapToGrid = true;
 
-function snapToGrid() {
+function snapNodesToGrid() {
 	// Let's not move stuff while the user is interacting
 	if (mouseIsPressed) {
 		return;

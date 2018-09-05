@@ -44,10 +44,14 @@ function setupUI() {
 		nodeShapeSelect.option(shape);
 	}
 	nodeShapeSelect.changed(setSelectedNodeShape);
+	nodeColorSelect = createColorPicker('#0000ff');
+	nodeColorSelect.class('nodeSetting');
+	nodeColorSelect.changed(setSelectedNodeColor);
 	nodeLabelBox.parent('nodeSettings');
 	nodeTextBox.parent('nodeSettings');
 	nodeSizeBox.parent('nodeSettings');
 	nodeShapeSelect.parent('nodeSettings');
+	nodeColorSelect.parent('nodeSettings');
 
 	//Tikz Exporting
 	tikzCodeOutput = createElement('p', 'Tikz will export to here!');
@@ -70,6 +74,12 @@ function nodeLabelChanged() {
 function setSelectedNodeShape() {
 	if (isANodeSelected()) {
 		nodeArray[selectedNode].shape = this.value();
+	}
+}
+
+function setSelectedNodeColor() {
+	if (isANodeSelected()) {
+		nodeArray[selectedNode].fillColor = this.value();
 	}
 }
 
