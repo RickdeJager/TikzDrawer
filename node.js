@@ -19,6 +19,7 @@ function Node(x, y, nodeText, label, size, shape, fillColor) {
 }
 
 function drawLabelAndText(x, y, size, label, nodeText) {
+	stroke(0);
 	strokeWeight(2);
 	textSize(24);
 	fill(255);
