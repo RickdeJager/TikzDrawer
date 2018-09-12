@@ -25,7 +25,8 @@ function handleLinking() {
 		if (nodeFound[0] < 0) {
 			if (!pmouseIsPressed) { //If the user clicks on empty space, unselect
 				selectedNode = null;
-				nodeSettingsDiv.hide();
+				closeNav()
+				//nodeSettingsDiv.hide();
 			}
 		}else if(nodeFound[0] != selectedNode) { //Second check makes sure the next frame doesn't link the node to itself.
 			if(!selectedNode) {

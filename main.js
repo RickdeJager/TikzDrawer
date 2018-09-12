@@ -1,9 +1,9 @@
-const width = 595; //A4 format
-const height = 842;
-const nodeSize = 45;
+const width = 1200;
+const height = 900;
 const moveAmount = 4;
 const deletionAreaWidth = 20;
 const scl = 13.7085/width; //Useable space in cm devided by width [cm/px]
+const nodeSize = 40;
 let nodeArray = [];
 let linkArray = [];
 let selectedNode = null;
@@ -14,7 +14,6 @@ function setup() {
 	var can = createCanvas(width, height);
 	can.parent('sketch');
 	nodeSettingsDiv = select('#nodeSettings');
-	nodeSettingsDiv.hide();
 	frameRate(60);
 	setupUI();
 }
@@ -62,7 +61,8 @@ function setNodeInfo() {
 	nodeLabelBox.value(node.label);
 	nodeTextBox.value(node.text);
 	nodeShapeSelect.value(node.shape);
-	nodeSettingsDiv.show();
+	openNav()
+	//nodeSettingsDiv.show();
 }
 
 

@@ -4,72 +4,72 @@
 	--backdrop:		#e2e2e2;
 }
 
-body{
-	line-height:		1.6;
-	font-size:		18px;
-	color:			#444;
-	padding:		10px;
-	background:		var(--backdrop);
-}
-h1{
-	background:		var(--main-bg-color);
-	color:			var(--main-txt-color);
-}
-.centered_float{
-	float:			right;
-	position:		absolute;
-	top:			20%;
-	right:			50%;
-}
-.centered_float > .child {
-	border-radius:		10px 10px 5px 5px;
-	background:		var(--main-bg-color);
-	padding:		20px 10px;
-	position: relative;
-	left: 50%;
-	font-size:		20px;
-	color:			var(--main-txt-color);
+#main{
+	display:		flex;
+	max-height:		900px;
 }
 
-#tutorialButton{
+.page-header1{
 	position:		relative;
-	float:			right;
-	bottom:			15px;
+	z-index:		2; /* Stay on top */
+	margin:			0;
+	background-color:	#cc3333;
+	box-shadow:		0px 3px 5px;
+}
+h1{
+	margin:			0;
+	font-size:		32px;
+	font-weight:		bold;
+	padding:		15px;
 }
 
 div#UI{
-	width:			1190px;
-	float:			right;
+	flex-grow:		1;
 }
 div#sketch{
+	position:		relative;
 	padding:		0px 20px 0px 0px;
-	float:			left;
-	width:			595px;
+	z-index:		1;
 }
 input#slider{
 	width:			55%;
+}
+div#tikzDiv{
+	display:		flex;
+	line-height:		1.6;
+	font-size:		18px;
+	color:			#444;
+	border-style:		solid;
+	overflow-y:		auto;
+	min-height:		calc(100% - 36px);
+	max-height:		calc(100% - 36px);
 }
 div#checkboxDiv{
 	float:			left;
 	padding:		0px 30px 0px 0px;
 }
-div#tikzDiv{
-	left:			605px;
-	padding:		10px;
-	border-style:		solid;
-	overflow-y:		auto;
-	height:			788px;
-}
+
 div#nodeSettings{
-	border-radius:		10px 10px 5px 5px;
-	background:		#ff0000;
-	padding:		20px 10px;
-	position:		absolute;
-	right:			18px;
-	top:			90px;
 }
+
 .nodeSetting{
 	height:			30px;
 	width:			250px;
 	display:		block;
+}
+
+ /* The side navigation menu */
+.sidenav {
+    height:			100%; /* 100% Full-height */
+    width:			0; /* 0 width - change this with JavaScript */
+    position:			fixed; /* Stay in place */
+    z-index:			1; /* Stay on top */
+    top:			0; /* Stay at the top */
+    right:			-30;
+    background-color:		#cc3333;
+    overflow-x:			hidden; /* Disable horizontal scroll */
+    padding-top:		60px; /* Place content 60px from the top */
+    padding-left:		30px; /* Place content 60px from the top */
+    transition:			0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    box-shadow:			-3px 0px 5px;
 }

@@ -30,9 +30,9 @@ function tikzExport() {
 		let node = nodeArray[nodeIndex];
 		if (node == null) {continue;}
 		let label = genLabel(node);
+		let size = genSize(node);
 		let newEntry = '\\node[draw, '+tikzShapeTranslateTable[node.shape]+
-				'minimum size='+String((node.size*scl).toFixed(2))+
-				'cm'+label+
+				size+label+
 				', fill='+node.fillColor.replace('#','')+'] at ('+
 				String((node.x*scl).toFixed(2))+', '+
 				String(((height-node.y)*scl).toFixed(2))+') ('+
@@ -91,4 +91,8 @@ function buildColorList() {
 	}
 
 	return tikzCodeString;
+}
+
+function genSize(node) {
+	return "minimum size = " + String((node.size*scl).toFixed(2)) + "cm";
 }

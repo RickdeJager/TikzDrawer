@@ -1,5 +1,8 @@
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/addons/p5.dom.js"></script>
         <script src="tikz.js"></script>
@@ -10,38 +13,57 @@
         <script src="node.js"></script>
         <script src="edge.js"></script>
         <script src="main.js"></script>
+        <script src="pageFunctions.js"></script>
         <link rel="stylesheet" href="style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
     <body>
-        <h1>Rick's Slick Fix for Sick Tikz Pics</h1>
-        <div id="main">
-            <div id="sketch" oncontextmenu="return false;">
-            </div>
-            <div id="UI">
-                <div id="plotSettings">
+        <div class="page-header1">
+            <h1>>TikzDrawer</h1>
+        </div>
+        <div class="container-fluid">
+            <div id="main">
+                <div id="sketch" oncontextmenu="return false;">
                 </div>
-                <div id="tikzDiv">
-                </div>
-                <div id="nodeSettings">
+                <div id="UI">
+                    <div id="plotSettings">
+                    </div>
+                    <div id="tikzDiv" class="container-fluid">
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="centered_float" id="tutorial">
-            <div class="child">
-                <p class="child">
-                    Hey welcome!<br>
-                    To draw a new node, simply click anywhere on the canvas.<br>
-                    To select a node, right click on it. A box will appear allowing
-                    you to change the properties of the node.<br>
-                    To draw an edge, drag a line from one node to another using
-                    the right mouse button. You can bend the edge by dragging it
-                    with the left mouse button.<br>
-                    To delete a node, select it and press delete or drag it to
-                    the red part of the canvas.
-                </p>
-                <input type=submit value="Got it!" id="tutorialButton" onclick="document.getElementById('tutorial').style.display='none'"/>
+            <div class="modal fade" id="tutorial" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Tutorial</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Hey welcome!<br>
+                                To draw a new node, simply click anywhere on the canvas.<br>
+                                To select a node, right click on it. A box will appear allowing
+                                you to change the properties of the node.<br>
+                                To draw an edge, drag a line from one node to another using
+                                the right mouse button. You can bend the edge by dragging it
+                                with the left mouse button.<br>
+                                To delete a node, select it and press delete or drag it to
+                                the red part of the canvas.
+                            </p>
+                        </div>
+                        <div class ="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Got it!</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    <div id="nodeSettings" class="sidenav">
+	    <h3>Properties</h3>
+    </div>
+        <script type="text/javascript"> $(window).on('load',function(){$('#tutorial').modal('show');});</script>
     </body>
 </html>
