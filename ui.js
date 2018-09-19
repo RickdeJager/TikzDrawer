@@ -19,9 +19,9 @@ function setupUI() {
 	gridSizeSlider = createSlider(10, 200, gridSize);
 	gridSizeSlider.id('slider');
 
-	gridSetting.parent('plotSettings')
-	gridSizeText.parent('plotSettings')
-	gridSizeSlider.parent('plotSettings')
+	gridSetting.parent('SnapCheckDiv')
+	gridSizeText.parent('SnapSliderText')
+	gridSizeSlider.parent('SnapSlider')
 
 	//Node Settings
 	nodeLabelBox = createInput('Node Label');

@@ -26,10 +26,18 @@
             <div id="main">
                 <div id="sketch" oncontextmenu="return false;">
                 </div>
-                <div id="UI">
-                    <div id="plotSettings">
+                <div id="UI" class="col">
+                    <div id="plotSettings" class="row row-md-1">
+                        <div id="SnapCheckDiv" class="col-md-4">
+                        </div>
+                        <div id="SnapSliderDiv" class="row col-md-8">
+                            <div id="SnapSliderText" class="col-md-4">
+                            </div>
+                            <div id="SnapSlider" class="col-md-8">
+                            </div>
+                        </div>
                     </div>
-                    <div id="tikzDiv" class="container-fluid">
+                    <div id="tikzDiv" class="container-fluid row-md-11">
                     </div>
                 </div>
             </div>
@@ -62,7 +70,7 @@
             </div>
         </div>
     <div id="nodeSettings" class="sidenav">
-	    <h3>Properties</h3>
+        <h3>Properties</h3>
     </div>
         <script type="text/javascript"> $(window).on('load',function(){$('#tutorial').modal('show');});</script>
     </body>
