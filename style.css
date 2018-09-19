@@ -23,7 +23,7 @@ div#UI{
 	left:			10px;
 }
 input#slider:hover {
-	    opacity: 1;
+	opacity:		1;
 }
 input#slider{
 	width:			100%;
@@ -55,6 +55,9 @@ label{
 div#SnapCheckDiv{
 	position:		relative;
 	left:			10px;
+}
+div.modal-dialog{
+	font-size:		20px;
 }
 
 div#tikzDiv{
