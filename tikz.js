@@ -28,12 +28,13 @@ function tikzExport() {
 	let tikzNodes = '';
 	for (nodeIndex in nodeArray) {
 		let node = nodeArray[nodeIndex];
+		let draw = drawOrNot(node);
 		if (node == null) {continue;}
 		let label = genLabel(node);
 		let size = genSize(node);
-		let newEntry = '\\node[draw, '+tikzShapeTranslateTable[node.shape]+
-				size+label+
-				', fill='+node.fillColor.replace('#','')+'] at ('+
+		let fill = genFill(node);
+		let newEntry = '\\node['+draw+tikzShapeTranslateTable[node.shape]+
+				size+label+fill+'] at ('+
 				String((node.x*scl).toFixed(2))+', '+
 				String(((height-node.y)*scl).toFixed(2))+') ('+
 				String(nodeIndex)+')'+' {'+node.text+'};<br>';
@@ -58,6 +59,20 @@ function tikzExport() {
 	ptikzCode = tikzCode;
 }
 
+function drawOrNot(node) {
+	if (node.drawBool) {
+		return 'draw, ';
+	}
+	return '';
+}
+
+function genFill(node) {
+	if (node.fillBool) {
+		return ', fill='+node.fillColor.replace('#','')
+	}
+	return '';
+}
+
 function genLabel(node) {
 	if (node.label != '') {
 		return ', label='+node.label;
@@ -79,6 +94,7 @@ function buildColorList() {
 	var htmlColorList = [];
 	for (node of nodeArray) {
 		if (!node) {continue;}
+		if (!node.fillBool) {continue;}
 		let nodeColor = node.fillColor;	
 		if (htmlColorList.indexOf(nodeColor) != -1) {continue;}
 		htmlColorList.push(nodeColor);

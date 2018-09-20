@@ -1,4 +1,4 @@
-function Node(x, y, nodeText, label, size, shape, fillColor) {
+function Node(x, y, nodeText, label, size, shape, fillColor, fill, draw) {
 
 	this.x = x;
 	this.y = y;
@@ -7,14 +7,16 @@ function Node(x, y, nodeText, label, size, shape, fillColor) {
 	this.size = size;
 	this.shape = shape;
 	this.fillColor = fillColor;
+	this.fillBool = fill;
+	this.drawBool = draw;
 
 	this.draw = function() {
-		drawNode(this.shape, this.size, this.x, this.y, this.fillColor);
+		drawNode(this.shape, this.size, this.x, this.y, this.fillColor, this.fillBool, this.drawBool);
 		drawLabelAndText(this.x, this.y, this.size, this.label, this.text);
 	};
 	this.highlight = function() {
 		var fillColor = color(250, 100, 100, 125);
-		drawNode(this.shape, this.size*1.5, this.x, this.y, fillColor);
+		drawNode(this.shape, this.size*1.5, this.x, this.y, fillColor, true, false);
 	};
 }
 
@@ -30,9 +32,18 @@ function drawLabelAndText(x, y, size, label, nodeText) {
 
 }
 
-function drawNode(shape, size, x, y, fillColor) {
-	strokeWeight(0);
-	fill(color(fillColor));
+function drawNode(shape, size, x, y, fillColor, fillBool, drawBool) {
+	stroke(0);
+	if (drawBool) {
+		strokeWeight(2);
+	} else {
+		strokeWeight(0);
+	}
+	if (fillBool) {
+		fill(color(fillColor));
+	} else {
+		fill(color(0, 0, 0, 125));
+	}
 	switch(shape) {
 		case 'circle':
 			ellipse(x, y, size);

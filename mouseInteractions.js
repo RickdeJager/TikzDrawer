@@ -20,6 +20,7 @@ function mouseClicked() {
 }
 
 function handleLinking() {
+	previewEdge = null;
 	if(mouseIsPressed && mouseButton == 'right') {
 		nodeFound = searchNodes(mouseX, mouseY);
 		if (nodeFound[0] < 0) {
@@ -27,6 +28,9 @@ function handleLinking() {
 				selectedNode = null;
 				closeNav()
 				//nodeSettingsDiv.hide();
+			}
+			if (holdingRightClick && selectedNode) {
+				previewEdge = [mouseX, mouseY, nodeArray[selectedNode].x, nodeArray[selectedNode].y]
 			}
 		}else if(nodeFound[0] != selectedNode) { //Second check makes sure the next frame doesn't link the node to itself.
 			if(!selectedNode) {

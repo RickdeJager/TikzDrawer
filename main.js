@@ -9,8 +9,10 @@ let linkArray = [];
 let selectedNode = null;
 let movingNode = null;
 let movingOffset = null;
+let hitDetectionBuffer = null;
 
 function setup() {
+	hitDetectionBuffer = createGraphics(width, height);
 	var can = createCanvas(width, height);
 	can.parent('sketch');
 	nodeSettingsDiv = select('#nodeSettings');
@@ -19,8 +21,8 @@ function setup() {
 }
 
 function draw() {
-	mouseStuff();
 	render();
+	mouseStuff();
 	tikzExport();
 
 }
@@ -53,19 +55,6 @@ function keyPressed() {
 	}
 }
 
-
-function setNodeInfo() {
-	if(!isANodeSelected()){return;}
-	let node = nodeArray[selectedNode];
-	nodeSizeBox.value(node.size);
-	nodeLabelBox.value(node.label);
-	nodeTextBox.value(node.text);
-	nodeShapeSelect.value(node.shape);
-	openNav()
-	//nodeSettingsDiv.show();
-}
-
-
 function isANodeSelected(){
 	if (!selectedNode) {
 		return false;
@@ -77,7 +66,7 @@ function isANodeSelected(){
 }
 
 function addNode(xPos, yPos, text, label, size, shape, fillColor) {
-	nodeArray.push(new Node(xPos, yPos, text, label, size, shape, fillColor));
+	nodeArray.push(new Node(xPos, yPos, text, label, size, shape, fillColor, true, true));
 }
 
 function toggleLink(from, to) {
