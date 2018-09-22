@@ -5,14 +5,34 @@ let movingEdge = null;
 let lastMouseClickOnCanvas = false;
 
 function mouseStuff() {
+	if(mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) {
+		return;	
+	}
 	handleLinking();
-	handleMoving();
+	handleNodeSelection();
+	var movedNode = false;
+	//Only move nodes if we aren't bending an edge already
+	if (!pMarked) {
+		movedNode = handleNodeMovement();
+	}
+	var movedEdge = false;
+	if (!movedNode) {
+		movedEdge = handleEdgeBending()
+		if (! handleNodeSelection()) {
+			//If there is no node to select, try the edges
+			handleEdgeSelection();
+		}
+	}
+	if (!movedEdge) {
+		handleNodeCreation();
+	}
 	pmouseIsPressed = mouseIsPressed;
 }
 
 function mouseReleased() {
 	pMarked = false;
 	holdingRightClick = false;
+	movingNode = null;
 }
 
 function mouseClicked() {
@@ -26,45 +46,30 @@ function handleLinking() {
 		if (nodeFound[0] < 0) {
 			if (!pmouseIsPressed) { //If the user clicks on empty space, unselect
 				selectedNode = null;
-				closeNav()
-				//nodeSettingsDiv.hide();
+				closeNodeNav()
+				closeEdgeNav()
 			}
 			if (holdingRightClick && selectedNode) {
 				previewEdge = [mouseX, mouseY, nodeArray[selectedNode].x, nodeArray[selectedNode].y]
 			}
-		}else if(nodeFound[0] != selectedNode) { //Second check makes sure the next frame doesn't link the node to itself.
-			if(!selectedNode) {
+		}else if(nodeFound[0] != selectedNode && selectedNode) { //check makes sure the next frame doesn't link the node to itself.
+			if(!holdingRightClick) { //If the node was clicked, highlight without linking
 				selectedNode = nodeFound[0];
 				setNodeInfo();
-			}else {
-				if(!holdingRightClick) { //If the node was clicked, highlight without linking
-					selectedNode = nodeFound[0];
-					setNodeInfo();
-					return;
-				}
-				toggleLink(nodeArray[selectedNode], nodeArray[nodeFound[0]]);
-				selectedNode = null;
+				return;
 			}
+			toggleLink(nodeArray[selectedNode], nodeArray[nodeFound[0]]);
+			selectedNode = null;
 		}
 		//RightClick has been held for at least this frame, set it to true
 		holdingRightClick = true;
 	}
 }
 
-function handleMoving() {
+function handleEdgeBending() {
 	nodeFound = searchNodes(mouseX, mouseY);
 	if(mouseIsPressed && mouseButton == 'left') {
-		if(mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) {
-			return;	
-		}
-		if(movingNode) {
-			nodeArray[movingNode].x = mouseX + movingOffset[0];
-			nodeArray[movingNode].y = mouseY + movingOffset[1];
-			if (mouseX >= width-deletionAreaWidth) {
-				deleteNode(movingNode);
-				movingNode = null;
-			}
-		}else if((marked || pMarked) && nodeFound < 0) {
+		if(marked || pMarked) {
 			var edge = findMarkedEdge();
 			if (edge == null || (pMarked && movingEdge)) {
 				edge = movingEdge;
@@ -74,16 +79,71 @@ function handleMoving() {
 			pMarked = true;
 			edge.centerOffsetX += mouseX-pmouseX;
 			edge.centerOffsetY += mouseY-pmouseY;
-		}else {
-			if(nodeFound[0] === -2) {
-				if(mouseX >= width-deletionAreaWidth) {return;} //Nodes in this area get deleted, no use in making new ones here.
-				addNode(mouseX, mouseY, '', '', nodeSize, nodeShape, '#0000ff');
-			}else if (nodeFound[0] != -1) {
+			return true;
+		}
+	} 
+	return false;
+}
+
+function handleNodeCreation() {
+	if(mouseIsPressed && mouseButton == 'left' && !movingNode) {
+		nodeFound = searchNodes(mouseX, mouseY);
+		if(nodeFound[0] === -2) {
+			if(mouseX >= width-deletionAreaWidth) {return;} //Nodes in this area get deleted, no use in making new ones here.
+			addNode(mouseX, mouseY, '', '', nodeSize, nodeShape, '#0000ff');
+			movingNode = nodeArray.length-1;
+			return true;
+		}
+	}
+}
+
+function handleNodeMovement() {
+	if(mouseIsPressed && mouseButton == 'left') {
+		if(movingNode) {
+			nodeArray[movingNode].x = mouseX + movingOffset[0];
+			nodeArray[movingNode].y = mouseY + movingOffset[1];
+			if (mouseX >= width-deletionAreaWidth) {
+				deleteNode(movingNode);
+				movingNode = null;
+			}
+			return true;
+		} else {
+			nodeFound = searchNodes(mouseX, mouseY);
+			if (nodeFound[0] >= 0) {
 				movingNode = nodeFound[0];
 				movingOffset = nodeFound.slice(1,3);
+				return true;
 			}
 		}
-	}else {
-		movingNode = null;
 	}
-} 
+	return false;
+}
+
+function handleEdgeSelection() {
+	if(mouseIsPressed && mouseButton == 'right') {
+		markedEdge = findMarkedEdge();
+		if (markedEdge) {
+			openEdgeNav();
+			return true;
+		}else {
+			closeEdgeNav();
+		}
+	}
+	return true;
+}
+
+function handleNodeSelection() {
+	if(mouseIsPressed && mouseButton == 'right') {
+		nodeFound = searchNodes(mouseX, mouseY);
+
+		if (nodeFound[0] < 0 && !pmouseIsPressed) {//If the user clicks on empty space, unselect
+			selectedNode = null;
+			closeNodeNav()
+		} else if (nodeFound[0] >= 0) {
+			selectedNode = nodeFound[0];	
+			setNodeInfo();
+			return true;
+		}
+	}
+	return false;
+}

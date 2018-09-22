@@ -8,7 +8,7 @@ let nodeArray = [];
 let linkArray = [];
 let selectedNode = null;
 let movingNode = null;
-let movingOffset = null;
+let movingOffset = [0, 0];
 let hitDetectionBuffer = null;
 
 function setup() {
@@ -104,6 +104,9 @@ function findLinkIndex(from, to) {
 //Doesn't actually delete, but rather erases all links and set's the nodes coords to null
 function deleteNode(nodeIndex) {
 	var node = nodeArray[nodeIndex];
+	if (nodeIndex == movingNode) {
+		movingNode = null;
+	}
 	//Delete Edge
 	linkArray = linkArray.filter((edge) => edge.from != node && edge.to !=node);
 	//Delete Node
@@ -111,6 +114,7 @@ function deleteNode(nodeIndex) {
 		selectedNode = null;
 	}
 	nodeArray[nodeIndex] = null;
+	closeNodeNav();
 		
 }
 

@@ -83,9 +83,10 @@ function setNodeInfo() {
 	nodeLabelBox.value(node.label);
 	nodeTextBox.value(node.text);
 	nodeShapeSelect.value(node.shape);
+	nodeColorSelect.value(node.fillColor)
 	nodeFillToggle.checked(node.fillBool);
 	nodeDrawToggle.checked(node.drawBool);
-	openNav()
+	openNodeNav()
 }
 
 function nodeTextChanged() {

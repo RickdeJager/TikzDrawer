@@ -28,8 +28,8 @@ function tikzExport() {
 	let tikzNodes = '';
 	for (nodeIndex in nodeArray) {
 		let node = nodeArray[nodeIndex];
-		let draw = drawOrNot(node);
 		if (node == null) {continue;}
+		let draw = drawOrNot(node);
 		let label = genLabel(node);
 		let size = genSize(node);
 		let fill = genFill(node);
