@@ -1,8 +1,8 @@
-const width = 1200;
-const height = 900;
+var width;
+var height;
+var scl;
 const moveAmount = 4;
 const deletionAreaWidth = 20;
-const scl = 13.7085/width; //Useable space in cm devided by width [cm/px]
 const nodeSize = 40;
 let nodeArray = [];
 let linkArray = [];
@@ -10,10 +10,22 @@ let selectedNode = null;
 let movingNode = null;
 let movingOffset = [0, 0];
 let hitDetectionBuffer = null;
+var can;
+
+window.onresize = function() {
+	width = Math.floor(window.innerWidth*2/3);
+	height = window.innerHeight-60;
+	scl = 13.7085/width; //Useable space in cm devided by width [cm/px]
+	can.size(width, height);
+	hitDetectionBuffer = createGraphics(width, height);
+};
 
 function setup() {
+	width = Math.floor(window.innerWidth*2/3);
+	height = window.innerHeight-60;
+	scl = 13.7085/width; //Useable space in cm devided by width [cm/px]
 	hitDetectionBuffer = createGraphics(width, height);
-	var can = createCanvas(width, height);
+	can = createCanvas(width, height);
 	can.parent('sketch');
 	nodeSettingsDiv = select('#nodeSettings');
 	frameRate(60);
