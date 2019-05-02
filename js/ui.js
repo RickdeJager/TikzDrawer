@@ -58,7 +58,7 @@ function setupUI() {
 	nodeFillToggle.class('nodeSetting');
 	nodeFillToggle.changed(setSelectedNodeFill);
 
-	nodeDrawToggle = createCheckbox('Draw', true);
+	nodeDrawToggle = createCheckbox('Border', true);
 	nodeDrawToggle.class('nodeSetting');
 	nodeDrawToggle.changed(setSelectedNodeDraw);
 
