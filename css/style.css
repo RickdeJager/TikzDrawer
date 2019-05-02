@@ -96,6 +96,10 @@ div#tikzDiv {
 	color: #444;
 }
 
+#tikzDiv > button {
+	width: 100%;
+}
+
 p#tikzCode {
 	border: 3px solid black;
 	/* 100% - 2 * border height */

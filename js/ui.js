@@ -70,14 +70,49 @@ function setupUI() {
 	nodeFillToggle.parent('nodeSettings');
 	nodeDrawToggle.parent('nodeSettings');
 
-	//Tikz Exporting
+	// Tikz Exporting
 	tikzCodeOutput = createElement('p', 'Tikz will export to here!');
 	tikzCodeOutput.id('tikzCode');
-	tikzCodeOutput.parent('tikzDiv');
+
+	let copyButton = createButton("Copy to clipboard");
+	copyButton.mousePressed(_ => {
+		// Adapted from: https://gist.githubusercontent.com/Chalarangelo/4ff1e8c0ec03d9294628efbae49216db/raw/cbd2d8877d4c5f2678ae1e6bb7cb903205e5eacc/copyToClipboard.js
+		// Create a textarea containing the tikz code
+		const el = document.createElement("textarea");
+		el.value = document.getElementById("tikzCode").innerText;
+
+		// Hide the textarea from the user
+		el.setAttribute("readonly", "");
+		el.style.position = "absolute";
+		el.style.left = "-9999px";
+
+		// Add it to the document
+		document.body.appendChild(el);
+
+		// Save user selection so we can restore it later
+		const selected = document.getSelection().rangeCount > 0 && document.getSelection().getRangeAt(0);
+
+		// Select the textarea and copy the content
+		el.select();
+		document.execCommand("copy");
+
+		// Clean up - remove the textarea and restore selection
+		document.body.removeChild(el);
+		if (selected) {
+			document.getSelection().removeAllRanges();
+			document.getSelection().addRange(selected);
+		}
+	});
+
+	copyButton.parent("tikzDiv");
+	tikzCodeOutput.parent("tikzDiv");
 }
 
 function setNodeInfo() {
-	if(!isANodeSelected()){return;}
+	if(!isANodeSelected()){
+		return;
+	}
+
 	let node = nodeArray[selectedNode];
 	nodeSizeBox.value(node.size);
 	nodeLabelBox.value(node.label);
@@ -86,7 +121,7 @@ function setNodeInfo() {
 	nodeColorSelect.value(node.fillColor)
 	nodeFillToggle.checked(node.fillBool);
 	nodeDrawToggle.checked(node.drawBool);
-	openNodeNav()
+	openNodeNav();
 }
 
 function nodeTextChanged() {
