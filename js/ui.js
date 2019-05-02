@@ -145,6 +145,15 @@ function setNodeInfo() {
 	nodeFillToggle.checked(node.fillBool);
 	nodeDrawToggle.checked(node.drawBool);
 
+	const container = document.getElementById("nodeSettings");
+	if (node.shape == "rectangle") {
+		// hide size - show width and height
+		container.classList.add("rectangle");
+	} else {
+		// show size - hide width and height
+		container.classList.remove("rectangle");
+	}
+
 	openNodeNav();
 }
 
