@@ -8,7 +8,7 @@ var nodeShapeSelect;
 var nodeFillToggle;
 var nodeDrawToggle;
 
-let shapeList = ['circle', 'triangle', 'square'];
+let shapeList = ['circle', 'triangle', 'square', 'rectangle'];
 let nodeShape = shapeList[0];
 
 function setupUI() {

@@ -124,7 +124,6 @@ p#tikzCode {
 	right: -355px;
 
 	background-color: #cc3333;
-	/*overflow-x: hidden;*/
 	padding-top: 60px;
 	padding-left: 30px;
 	transition: right 0.5s;
