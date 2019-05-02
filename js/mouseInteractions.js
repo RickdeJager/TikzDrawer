@@ -6,7 +6,7 @@ let lastMouseClickOnCanvas = false;
 
 function mouseStuff() {
 	if(mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) {
-		return;	
+		return;
 	}
 	handleLinking();
 	handleNodeSelection();
@@ -81,7 +81,7 @@ function handleEdgeBending() {
 			edge.centerOffsetY += mouseY-pmouseY;
 			return true;
 		}
-	} 
+	}
 	return false;
 }
 
@@ -89,7 +89,11 @@ function handleNodeCreation() {
 	if(mouseIsPressed && mouseButton == 'left' && !movingNode) {
 		nodeFound = searchNodes(mouseX, mouseY);
 		if(nodeFound[0] === -2) {
-			if(mouseX >= width-deletionAreaWidth) {return;} //Nodes in this area get deleted, no use in making new ones here.
+			// Nodes in this area get deleted, no use in making new
+			// ones here.
+			if (mouseX >= width-deletionAreaWidth) {
+				return;
+			}
 			addNode(mouseX, mouseY, '', '', nodeSize, nodeShape, '#0000ff');
 			movingNode = nodeArray.length-1;
 			return true;
@@ -98,37 +102,42 @@ function handleNodeCreation() {
 }
 
 function handleNodeMovement() {
-	if(mouseIsPressed && mouseButton == 'left') {
-		if(movingNode) {
-			nodeArray[movingNode].x = mouseX + movingOffset[0];
-			nodeArray[movingNode].y = mouseY + movingOffset[1];
-			if (mouseX >= width-deletionAreaWidth) {
-				deleteNode(movingNode);
-				movingNode = null;
-			}
-			return true;
-		} else {
-			nodeFound = searchNodes(mouseX, mouseY);
-			if (nodeFound[0] >= 0) {
-				movingNode = nodeFound[0];
-				movingOffset = nodeFound.slice(1,3);
-				return true;
-			}
-		}
+	if (!mouseIsPressed || mouseButton != 'left') {
+		return false;
 	}
-	return false;
+
+	if (movingNode) {
+		nodeArray[movingNode].x = mouseX + movingOffset[0];
+		nodeArray[movingNode].y = mouseY + movingOffset[1];
+		if (mouseX >= width-deletionAreaWidth) {
+			deleteNode(movingNode);
+			movingNode = null;
+		}
+		return true;
+	}
+
+	nodeFound = searchNodes(mouseX, mouseY);
+	if (nodeFound[0] < 0) {
+		return false;
+	}
+
+	movingNode = nodeFound[0];
+	movingOffset = nodeFound.slice(1,3);
+	return true;
 }
 
 function handleEdgeSelection() {
-	if(mouseIsPressed && mouseButton == 'right') {
-		markedEdge = findMarkedEdge();
-		if (markedEdge) {
-			openEdgeNav();
-			return true;
-		}else {
-			closeEdgeNav();
-		}
+	if (!mouseIsPressed || mouseButton != 'right') {
+		return true;
 	}
+
+	markedEdge = findMarkedEdge();
+	if (markedEdge) {
+		openEdgeNav();
+		return true;
+	}
+
+	closeEdgeNav();
 	return true;
 }
 
@@ -140,7 +149,7 @@ function handleNodeSelection() {
 			selectedNode = null;
 			closeNodeNav()
 		} else if (nodeFound[0] >= 0) {
-			selectedNode = nodeFound[0];	
+			selectedNode = nodeFound[0];
 			setNodeInfo();
 			return true;
 		}

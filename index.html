@@ -1,81 +1,71 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/addons/p5.dom.js"></script>
-        <script src="tikz.js"></script>
-        <script src="render.js"></script>
-        <script src="mouseInteractions.js"></script>
-        <script src="ui.js"></script>
-        <script src="grid.js"></script>
-        <script src="node.js"></script>
-        <script src="edge.js"></script>
-        <script src="main.js"></script>
-        <script src="pageFunctions.js"></script>
-        <link rel="stylesheet" href="style.css">
+        <script src="js/tikz.js"></script>
+        <script src="js/render.js"></script>
+        <script src="js/mouseInteractions.js"></script>
+        <script src="js/ui.js"></script>
+        <script src="js/grid.js"></script>
+        <script src="js/node.js"></script>
+        <script src="js/edge.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/pageFunctions.js"></script>
+
+        <link rel="stylesheet" href="css/style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
     <body>
         <div class="page-header1">
-            <h1>>TikzDrawer</h1>
+            <h1><span>></span>TikzDrawer</h1>
         </div>
-        <div class="container-fluid">
-            <div id="main" class="row">
-                <div id="sketch" oncontextmenu="return false;" class="col-md-8">
-                </div>
-                <div id="UI" class="col col-md-4">
-                    <div id="plotSettings" class="row row-md-1">
-                        <div id="SnapCheckDiv" class="col-md-4">
-                        </div>
-                        <div id="SnapSliderDiv" class="row col-md-8">
-                            <div id="SnapSliderText" class="col-md-4">
-                            </div>
-                            <div id="SnapSlider" class="col-md-8">
-                            </div>
-                        </div>
+        <div id="main">
+            <div id="sketch" oncontextmenu="return false;" class="col-md-8">
+            </div>
+            <div id="UI" class="col col-md-4">
+                <div id="plotSettings"></div>
+                <div id="tikzDiv"></div>
+            </div>
+        </div>
+        <div class="modal fade" id="tutorial" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Tutorial</h4>
                     </div>
-                    <div id="tikzDiv" class="row-md-11">
+                    <div class="modal-body">
+                        <p>
+                            Hey welcome!<br>
+                            To draw a new node, simply click anywhere on the canvas.<br>
+                            To select a node, right click on it. A box will appear allowing
+                            you to change the properties of the node.<br>
+                            To draw an edge, drag a line from one node to another using
+                            the right mouse button. You can bend the edge by dragging it
+                            with the left mouse button.<br>
+                            To delete a node, select it and press delete or drag it to
+                            the red part of the canvas.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Got it!</button>
                     </div>
                 </div>
             </div>
         </div>
-            <div class="modal fade" id="tutorial" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Tutorial</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                                Hey welcome!<br>
-                                To draw a new node, simply click anywhere on the canvas.<br>
-                                To select a node, right click on it. A box will appear allowing
-                                you to change the properties of the node.<br>
-                                To draw an edge, drag a line from one node to another using
-                                the right mouse button. You can bend the edge by dragging it
-                                with the left mouse button.<br>
-                                To delete a node, select it and press delete or drag it to
-                                the red part of the canvas.
-                            </p>
-                        </div>
-                        <div class ="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Got it!</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
     <div id="nodeSettings" class="sidenav">
         <h3>Properties</h3>
     </div>
     <div id="edgeSettings" class="sidenav">
         <h3>Properties</h3>
-	<p>This Nav will house edge settings soon!</p>
+        <p>This Nav will house edge settings soon!</p>
     </div>
-        <script type="text/javascript"> $(window).on('load',function(){$('#tutorial').modal('show');});</script>
-    </body>
+    <script type="text/javascript"> $(window).on('load',function(){$('#tutorial').modal('show');});</script>
+</body>
 </html>

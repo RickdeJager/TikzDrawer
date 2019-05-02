@@ -21,9 +21,9 @@ function setupUI() {
 	gridSizeSlider = createSlider(10, 200, gridSize);
 	gridSizeSlider.id('slider');
 
-	gridSetting.parent('SnapCheckDiv')
-	gridSizeText.parent('SnapSliderText')
-	gridSizeSlider.parent('SnapSlider')
+	gridSetting.parent('plotSettings');
+	gridSizeText.parent('plotSettings');
+	gridSizeSlider.parent('plotSettings');
 
 	//Node Settings
 	nodeLabelBox = createInput('Node Label');
@@ -73,7 +73,7 @@ function setupUI() {
 	//Tikz Exporting
 	tikzCodeOutput = createElement('p', 'Tikz will export to here!');
 	tikzCodeOutput.id('tikzCode');
-	tikzCodeOutput.parent('tikzDiv')
+	tikzCodeOutput.parent('tikzDiv');
 }
 
 function setNodeInfo() {
