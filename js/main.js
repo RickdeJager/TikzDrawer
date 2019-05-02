@@ -136,15 +136,26 @@ function addLink(from, to) {
 function searchNodes(x, y) {
 	for (index in nodeArray) {
 		let node = nodeArray[index];
-		if (node == null) {continue;}
-		if( dist(node.x, node.y, x, y) <= node.size/2) {
-			return [index, node.x-x, node.y-y]; //Found and exact match!
+		if (node == null) {
+			continue;
 		}
-		if( dist(node.x, node.y, x, y) <= node.size/2 + nodeSize/2) { //nodeSize is the size of the new node
-			return [-1]; //No exact match, but still too close to place a node here.
+
+		let nodedist = node.getDist(x, y);
+
+		if (nodedist <= 0) {
+			// Found an exact match!
+			return [index, node.x - x, node.y - y];
+		}
+
+		// nodeSize is the size of the new node
+		if (nodedist <= nodeSize / 2) {
+			// No exact match, but still too close to place a node here.
+			return [-1];
 		}
 	}
-	return [-2]; //No node found!
+
+	// No node found!
+	return [-2];
 }
 
 function findMarkedEdge() {

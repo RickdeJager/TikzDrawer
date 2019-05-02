@@ -136,6 +136,29 @@ function Node(x, y, nodeText, label, size, shape, fillColor, _fill, draw) {
 				break;
 		}
 	};
+
+	this.getDist = (x, y) => {
+		let dx, dy;
+		switch (this.shape) {
+			case 'square':
+				dx = max(abs(x - this.x) - this.size / 2, 0);
+				dy = max(abs(y - this.y) - this.size / 2, 0);
+				return Math.sqrt(dx * dx + dy * dy);
+
+			case 'rectangle':
+				dx = max(abs(x - this.x) - this.width / 2, 0);
+				dy = max(abs(y - this.y) - this.height / 2, 0);
+				return Math.sqrt(dx * dx + dy * dy);
+
+			case 'triangle':
+				// maybe implement something better here, but for now it's fine
+			case 'circle':
+			default:
+				return max(dist(this.x, this.y, x, y) - this.size / 2, 0);
+		}
+
+		return -1;
+	}
 }
 
 function drawLabelAndText(x, y, size, label, nodeText) {
