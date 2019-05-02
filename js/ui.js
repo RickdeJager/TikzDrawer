@@ -4,6 +4,8 @@ var nodeLabelBox;
 var nodeTextBox;
 var nodeSettingsDiv;
 var nodeSizeBox;
+var nodeHeightBox;
+var nodeWidthBox;
 var nodeShapeSelect;
 var nodeFillToggle;
 var nodeDrawToggle;
@@ -25,16 +27,20 @@ function setupUI() {
 	gridSizeText.parent('plotSettings');
 	gridSizeSlider.parent('plotSettings');
 
-	//Node Settings
-	nodeLabelBox = createInput('Node Label');
+	// Node Settings
+	let label_node = createSpan("Node Label");
+	let label_text = createSpan("Node Text");
+	let label_size = createSpan("Node Size");
+	let label_width = createSpan("Node Width");
+	let label_height = createSpan("Node Height");
+
+	nodeLabelBox = createInput();
 	nodeLabelBox.id('nodeLabelBox');
-	nodeLabelBox.attribute('placeholder', 'Node Label Text');
 	nodeLabelBox.class('nodeSetting');
 	nodeLabelBox.input(nodeLabelChanged);
 
-	nodeTextBox = createInput('Node Text');
+	nodeTextBox = createInput();
 	nodeTextBox.id('nodeTextBox');
-	nodeTextBox.attribute('placeholder', 'Node Text');
 	nodeTextBox.class('nodeSetting');
 	nodeTextBox.input(nodeTextChanged);
 
@@ -42,6 +48,14 @@ function setupUI() {
 	nodeSizeBox.id('nodeSizeBox');
 	nodeSizeBox.class('nodeSetting');
 	nodeSizeBox.changed(setSelectedNodeSize);
+
+	nodeWidthBox = createInput('Node width', 'number');
+	nodeWidthBox.class('nodeSetting width');
+	nodeWidthBox.changed(setSelectedNodeWidth);
+
+	nodeHeightBox = createInput('Node height', 'number');
+	nodeHeightBox.class('nodeSetting height');
+	nodeHeightBox.changed(setSelectedNodeHeight);
 
 	nodeShapeSelect = createSelect();
 	nodeShapeSelect.class('nodeSetting');
@@ -62,9 +76,16 @@ function setupUI() {
 	nodeDrawToggle.class('nodeSetting');
 	nodeDrawToggle.changed(setSelectedNodeDraw);
 
+	label_node.parent('nodeSettings');
 	nodeLabelBox.parent('nodeSettings');
+	label_text.parent('nodeSettings');
 	nodeTextBox.parent('nodeSettings');
+	label_size.parent('nodeSettings');
 	nodeSizeBox.parent('nodeSettings');
+	label_width.parent('nodeSettings');
+	nodeWidthBox.parent('nodeSettings');
+	label_height.parent('nodeSettings');
+	nodeHeightBox.parent('nodeSettings');
 	nodeShapeSelect.parent('nodeSettings');
 	nodeColorSelect.parent('nodeSettings');
 	nodeFillToggle.parent('nodeSettings');
@@ -109,18 +130,21 @@ function setupUI() {
 }
 
 function setNodeInfo() {
-	if(!isANodeSelected()){
+	if (! isANodeSelected()) {
 		return;
 	}
 
 	let node = nodeArray[selectedNode];
 	nodeSizeBox.value(node.size);
+	nodeWidthBox.value(node.width);
+	nodeHeightBox.value(node.height);
 	nodeLabelBox.value(node.label);
 	nodeTextBox.value(node.text);
 	nodeShapeSelect.value(node.shape);
 	nodeColorSelect.value(node.fillColor)
 	nodeFillToggle.checked(node.fillBool);
 	nodeDrawToggle.checked(node.drawBool);
+
 	openNodeNav();
 }
 
@@ -137,8 +161,19 @@ function nodeLabelChanged() {
 }
 
 function setSelectedNodeShape() {
-	if (isANodeSelected()) {
-		nodeArray[selectedNode].shape = this.value();
+	if (! isANodeSelected()) {
+		return;
+	}
+
+	nodeArray[selectedNode].shape = this.value();
+
+	const container = document.getElementById("nodeSettings");
+	if (this.value() == "rectangle") {
+		// hide size - show width and height
+		container.classList.add("rectangle");
+	} else {
+		// show size - hide width and height
+		container.classList.remove("rectangle");
 	}
 }
 
@@ -152,6 +187,22 @@ function setSelectedNodeSize() {
 	if (isANodeSelected()) {
 		nodeArray[selectedNode].size = int(this.value());
 	}
+}
+
+function setSelectedNodeWidth() {
+	if (! isANodeSelected()) {
+		return;
+	}
+
+	nodeArray[selectedNode].width = int(this.value());
+}
+
+function setSelectedNodeHeight() {
+	if (! isANodeSelected()) {
+		return;
+	}
+
+	nodeArray[selectedNode].height = int(this.value());
 }
 
 function setSelectedNodeFill() {

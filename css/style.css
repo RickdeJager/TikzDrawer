@@ -117,7 +117,28 @@ p#tikzCode {
 	display: block;
 }
 
- /* The side navigation menu */
+/**
+ * Hardcoding positions because ! + is not yet supported
+ */
+#nodeSettings.rectangle > #nodeSizeBox,
+#nodeSettings.rectangle > span:nth-child(6), /* size label */
+#nodeSettings > .nodeSetting.width,
+#nodeSettings > span:nth-child(8), /* width label */
+#nodeSettings > .nodeSetting.height,
+#nodeSettings > span:nth-child(10) {
+	display: none;
+}
+
+#nodeSizeBox,
+#nodeSettings > span:nth-child(6),
+#nodeSettings.rectangle > .nodeSetting.width,
+#nodeSettings.rectangle > span:nth-child(8),
+#nodeSettings.rectangle > .nodeSetting.height,
+#nodeSettings.rectangle > span:nth-child(10) {
+	display: block;
+}
+
+/* The side navigation menu */
 .sidenav {
 	height: 100%;
 	width: 350px;

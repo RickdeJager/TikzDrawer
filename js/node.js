@@ -5,7 +5,7 @@ let tikzShapeTranslateTable = {
 	'rectangle': 'shape=rectangle, anchor=center, ',
 }
 
-function Node(x, y, nodeText, label, size, shape, fillColor, fill, draw) {
+function Node(x, y, nodeText, label, size, shape, fillColor, _fill, draw) {
 
 	this.x = x;
 	this.y = y;
@@ -14,17 +14,35 @@ function Node(x, y, nodeText, label, size, shape, fillColor, fill, draw) {
 	this.size = size;
 	this.shape = shape;
 	this.fillColor = fillColor;
-	this.fillBool = fill;
+	this.fillBool = _fill;
 	this.drawBool = draw;
 
+	this.width = 2 * size;
+	this.height = size;
+
 	this.draw = _ => {
-		drawNode(this.shape, this.size, this.x, this.y, this.fillColor, this.fillBool, this.drawBool);
+		this._draw();
 		drawLabelAndText(this.x, this.y, this.size, this.label, this.text);
 	};
 
 	this.highlight = _ => {
-		var fillColor = color(250, 100, 100, 125);
-		drawNode(this.shape, this.size*1.5, this.x, this.y, fillColor, true, false);
+		// backup old things
+		const colour = this.fillColor;
+		const wasDraw = this.drawBool;
+		const wasFill = this.fillBool;
+		
+		this.fillColor = color(250, 100, 100, 125);
+		this.size *= 1.5;
+		this.fillBool = true;
+		this.drawBool = false;
+
+		this._draw();
+
+		// restore
+		this.size /= 1.5;
+		this.fillBool = wasFill;
+		this.drawBool = wasDraw;
+		this.fillColor = colour;
 	};
 
 	this.getDraw = _ => {
@@ -57,9 +75,7 @@ function Node(x, y, nodeText, label, size, shape, fillColor, fill, draw) {
 		}
 
 		// TODO make these configurable
-		let width = 2 * this.size;
-		let height = this.size;
-		return `minimum width = ${(width * scl).toFixed(2)}cm, minimum height = ${(height * scl).toFixed(2)}cm`;
+		return `minimum width = ${(this.width * scl).toFixed(2)}cm, minimum height = ${(this.height * scl).toFixed(2)}cm`;
 	}
 
 	this.generateTikz = id => {
@@ -75,6 +91,46 @@ function Node(x, y, nodeText, label, size, shape, fillColor, fill, draw) {
 
 		return `\\node[${options}] at (${x}, ${y}) (${id}) {${this.text}};<br>`;
 	};
+
+	this._draw = _ => {
+		stroke(0);
+
+		if (this.drawBool) {
+			strokeWeight(2);
+		} else {
+			strokeWeight(0);
+		}
+
+		if (this.fillBool) {
+			fill(color(this.fillColor));
+		} else {
+			fill(color(0, 0, 0, 125));
+		}
+
+
+		switch(this.shape) {
+			case 'square':
+				rect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+				break;
+			case 'triangle':
+				triangle(
+					this.x - this.size / 2, this.y + this.size / 2,
+					this.x + this.size / 2, this.y + this.size / 2,
+					this.x, this.y - this.size / 2
+				);
+				break;
+			case 'rectangle':
+				rect(
+					this.x - this.width / 2, this.y - this.height / 2,
+					this.width, this.height
+				);
+				break;
+			case 'circle':
+			default:
+				ellipse(this.x, this.y, this.size);
+				break;
+		}
+	};
 }
 
 function drawLabelAndText(x, y, size, label, nodeText) {
@@ -87,38 +143,4 @@ function drawLabelAndText(x, y, size, label, nodeText) {
 	textAlign('center', 'center');
 	text(nodeText, x, y);
 
-}
-
-function drawNode(shape, size, x, y, fillColor, fillBool, drawBool) {
-	stroke(0);
-	if (drawBool) {
-		strokeWeight(2);
-	} else {
-		strokeWeight(0);
-	}
-	if (fillBool) {
-		fill(color(fillColor));
-	} else {
-		fill(color(0, 0, 0, 125));
-	}
-
-	switch(shape) {
-		case 'square':
-			rect(x-size/2, y-size/2, size, size);
-			break;
-		case 'triangle':
-			// Too simple, but don't feel like doing math rn
-			triangle(x-size/2, y+size/2, x+size/2, y+size/2, x, y-size/2);
-			break;
-		case 'rectangle':
-			// TODO make these configurable
-			let width = 2 * size;
-			let height = size;
-			rect(x - width / 2, y - height / 2, width, height);
-			break;
-		case 'circle':
-		default:
-			ellipse(x, y, size);
-			break;
-	}
 }
