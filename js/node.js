@@ -30,15 +30,20 @@ function Node(x, y, nodeText, label, size, shape, fillColor, _fill, draw) {
 		const colour = this.fillColor;
 		const wasDraw = this.drawBool;
 		const wasFill = this.fillBool;
-		
+		const oldHeight = this.height;
+
 		this.fillColor = color(250, 100, 100, 125);
 		this.size *= 1.5;
+		this.width *= 1.25;
+		this.height += this.width - (this.width / 1.25);
 		this.fillBool = true;
 		this.drawBool = false;
 
 		this._draw();
 
 		// restore
+		this.height = oldHeight;
+		this.width /= 1.25;
 		this.size /= 1.5;
 		this.fillBool = wasFill;
 		this.drawBool = wasDraw;
