@@ -60,7 +60,7 @@ function calculateControl(edge) {
 	let x = (((edge.from.x + edge.to.x)/2 + edge.centerOffsetX) *scl).toFixed(4);
 	let y = ((height - ((edge.from.y + edge.to.y)/2 + edge.centerOffsetY)) * scl).toFixed(4);
 
-	return `.. controls (' + x + ', '+y+') ..`;
+	return `.. controls (${x}, ${y}) ..`;
 }
 
 function buildColorList() {
