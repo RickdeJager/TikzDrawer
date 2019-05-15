@@ -1,0 +1,158 @@
+#main {
+	display: flex;
+}
+
+.page-header1 {
+	position: relative;
+	/* Stay on top */
+	z-index: 2;
+	margin: 0;
+	background-color: #cc3333;
+	box-shadow: 0px 3px 5px;
+	height: 60px;
+}
+
+h1 {
+	margin:			0;
+	font-size:		28px;
+	font-weight:	bold;
+	padding-left:	15px;
+	padding-top:	15px;
+}
+
+h1 > span {
+	position: relative;
+	top: -3px;
+}
+
+div#UI {
+	flex-grow:		1;
+
+	display:		flex;
+	flex-direction: column;
+	padding-top:	10px;
+}
+
+div#sketch {
+	padding: 0;
+}
+
+/**
+ * Slider
+ */
+input#slider {
+	width: 100%;
+	background: #e2e2e2;
+	border-radius: 10px;
+	outline: none;
+
+	/* Set opacity (for mouse-over effects on hover) */
+	opacity: 0.7;
+
+	/* 0.2 seconds transition on hover */
+	-webkit-transition: 0.2s;
+	transition: opacity 0.2s;
+}
+
+input#slider:hover {
+	opacity: 1;
+}
+
+input#slider::-webkit-slider-thumb {
+	border-radius: 50%;
+	background: #cc3333;
+}
+
+input#slider::-moz-range-thumb {
+	border-radius: 50%;
+	background: #cc3333;
+}
+
+label {
+	margin-left: 10px;
+	font-size: 19px;
+	font-weight: 15;
+}
+
+div.modal-dialog {
+	font-size: 20px;
+}
+
+div#plotSettings {
+	flex: 1;
+	font-size: 22px;
+	font-weight: 15;
+}
+
+div#plotSettings > span {
+	font-size: 19px;
+}
+
+div#tikzDiv {
+	flex: 1;
+	position: relative;
+	line-height: 1.6;
+	font-size: 18px;
+	color: #444;
+}
+
+#tikzDiv > button {
+	width: 100%;
+}
+
+p#tikzCode {
+	border: 3px solid black;
+	/* 100% - 2 * border height */
+	height: calc(100% - 6px);
+	margin: 0px;
+	padding: 5px;
+
+	max-height: 200px;
+	overflow-y: scroll;
+}
+
+.nodeSetting {
+	height: 30px;
+	width: 250px;
+	display: block;
+}
+
+/**
+ * Hardcoding positions because ! + is not yet supported
+ */
+#nodeSettings.rectangle > #nodeSizeBox,
+#nodeSettings.rectangle > span:nth-child(6), /* size label */
+#nodeSettings > .nodeSetting.width,
+#nodeSettings > span:nth-child(8), /* width label */
+#nodeSettings > .nodeSetting.height,
+#nodeSettings > span:nth-child(10) {
+	display: none;
+}
+
+#nodeSizeBox,
+#nodeSettings > span:nth-child(6),
+#nodeSettings.rectangle > .nodeSetting.width,
+#nodeSettings.rectangle > span:nth-child(8),
+#nodeSettings.rectangle > .nodeSetting.height,
+#nodeSettings.rectangle > span:nth-child(10) {
+	display: block;
+}
+
+/* The side navigation menu */
+.sidenav {
+	height: 100%;
+	width: 350px;
+
+	position: fixed;
+	top: 0px;
+	/* Move this off the right of the screen */
+	right: -355px;
+
+	background-color: #cc3333;
+	padding-top: 60px;
+	padding-left: 30px;
+	transition: right 0.5s;
+
+	z-index: 1;
+	box-shadow: -3px 0px 5px;
+}

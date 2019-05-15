@@ -15,7 +15,7 @@ var can;
 window.onresize = function() {
 	width = Math.floor(window.innerWidth*2/3);
 	height = window.innerHeight-60;
-	scl = 13.7085/width; //Useable space in cm devided by width [cm/px]
+	scl = 13.7085 / width; // Usable space in cm devided by width [cm/px]
 	can.size(width, height);
 	hitDetectionBuffer = createGraphics(width, height);
 };
@@ -23,7 +23,7 @@ window.onresize = function() {
 function setup() {
 	width = Math.floor(window.innerWidth*2/3);
 	height = window.innerHeight-60;
-	scl = 13.7085/width; //Useable space in cm devided by width [cm/px]
+	scl = 13.7085/width; // Usable space in cm devided by width [cm/px]
 	hitDetectionBuffer = createGraphics(width, height);
 	can = createCanvas(width, height);
 	can.parent('sketch');
@@ -36,7 +36,6 @@ function draw() {
 	render();
 	mouseStuff();
 	tikzExport();
-
 }
 
 function keyPressed() {
@@ -86,7 +85,7 @@ function toggleLink(from, to) {
 		if ((edge.from == from && edge.to ==to) || (edge.from == to && edge.to == from)) {
 			deleteLink(edge.from, edge.to);
 			return;
-		}	
+		}
 	}
 	addLink(from, to);
 }
@@ -127,7 +126,7 @@ function deleteNode(nodeIndex) {
 	}
 	nodeArray[nodeIndex] = null;
 	closeNodeNav();
-		
+
 }
 
 function addLink(from, to) {
@@ -137,21 +136,32 @@ function addLink(from, to) {
 function searchNodes(x, y) {
 	for (index in nodeArray) {
 		let node = nodeArray[index];
-		if (node == null) {continue;}
-		if( dist(node.x, node.y, x, y) <= node.size/2) {
-			return [index, node.x-x, node.y-y]; //Found and exact match!
+		if (node == null) {
+			continue;
 		}
-		if( dist(node.x, node.y, x, y) <= node.size/2 + nodeSize/2) { //nodeSize is the size of the new node
-			return [-1]; //No exact match, but still too close to place a node here.
+
+		let nodedist = node.getDist(x, y);
+
+		if (nodedist <= 0) {
+			// Found an exact match!
+			return [index, node.x - x, node.y - y];
+		}
+
+		// nodeSize is the size of the new node
+		if (nodedist <= nodeSize / 2) {
+			// No exact match, but still too close to place a node here.
+			return [-1];
 		}
 	}
-	return [-2]; //No node found!
+
+	// No node found!
+	return [-2];
 }
 
 function findMarkedEdge() {
 	for (edge of linkArray) {
 		if (edge.hover) {
-			return edge;	
+			return edge;
 		}
 	}
 	return null;
